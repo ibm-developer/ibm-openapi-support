@@ -13,10 +13,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.ibm.com/arf/swaggerize.git"
-  },
+  "repository": "https://github.com/ibm-developer/ibm-openapi-support",
   "keywords": [
     "yeoman-generator",
     "swagger",
