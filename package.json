@@ -1,8 +1,7 @@
 {
-  "name": "@arf/swaggerize",
+  "name": "ibm-openapi-support",
   "version": "0.0.2",
   "description": "utility for loading and parsing swagger",
-  "homepage": "https://github.ibm.com/arf/swaggerize#readme",
   "author": {
     "name": "Neil Hardman",
     "email": "nhardman@uk.ibm.com"
@@ -55,10 +54,4 @@
     ]
   },
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/IBM-Swift/generator-swiftserver/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm-registry.whitewater.ibm.com"
-  }
 }
