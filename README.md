@@ -4,7 +4,7 @@ This module is a utility to make the process of loading and parsing documents in
 
 ## Quick start
 
-Swaggerize contains two modules, index.js and utils.js. The  described below: 
+Swaggerize contains two modules, index.js and utils.js. They are described below: 
 
 * __utils.loadAsync__: This utility method is used for loading a swagger document from a file path or url. The method takes two arguments and returns a dictionary with two keys, _**loaded**_ and _**parsed**_. The _**loaded**_ key contains a javascript object containing the original document. The _**parsed**_ key contains the a dictionary with parsed swagger elements. The arguments to __loadAsync__:
 	- path or url to the openApi document.
