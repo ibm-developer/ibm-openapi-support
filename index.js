@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 'use strict'
-let debug = require('debug')('arf:swaggerize:index')
+let debug = require('debug')('ibm-openapi-support:index')
 let utils = require('./utils')
 let swaggerParser = require('swagger-parser')
 let builderUtils = require('swaggerize-routes/lib/utils')
