@@ -15,7 +15,7 @@
  */
 'use strict'
 
-let debug = require('debug')('arf:swaggerize:utils')
+let debug = require('debug')('ibm-openapi-support:utils')
 let format = require('util').format
 let fs = require('fs')
 let path = require('path')
