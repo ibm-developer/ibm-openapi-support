@@ -1,6 +1,6 @@
 {
   "name": "ibm-openapi-support",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "utility for loading and parsing swagger",
   "author": {
     "name": "Neil Hardman",
@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "debug": "^2.2.0",
-    "js-yaml": "^3.4.2",
+    "js-yaml": "^3.9.0",
     "bluebird": "^3.5.0",
     "request": "^2.81.0",
     "swagger-parser": "^3.4.1",
