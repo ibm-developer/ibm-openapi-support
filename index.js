@@ -18,6 +18,7 @@ let debug = require('debug')('arf:swaggerize:index')
 let utils = require('./utils')
 let swaggerParser = require('swagger-parser')
 let builderUtils = require('swaggerize-routes/lib/utils')
+let YAML = require('js-yaml')
 
 function ensureValidAsync (loadedSwagger) {
   debug('in ensureValidAsync')
@@ -142,12 +143,26 @@ function parseSwagger (api, formatters) {
 
 exports.parse = function (swaggerStr, formatters) {
   debug('in parse')
-  let loaded = JSON.parse(swaggerStr)
+  let swaggerType= undefined  
+  let loaded= undefined
+  if ( swaggerStr.charAt(0) == "{" ) { 
+    loaded = JSON.parse(swaggerStr)
+    swaggerType= "json"
+  }
+  else {
+    loaded= YAML.safeLoad(swaggerStr)
+    swaggerType= "yaml"
+  }
   return ensureValidAsync(loaded)
     .then(function () {
       debug('successfully validated against schema')
       // restore the original swagger as the call to ensureValidAsync modifies the original loaded object.
-      loaded = JSON.parse(swaggerStr)
-      return { loaded: loaded, parsed: parseSwagger(loaded, formatters) }
+      if ( swaggerType == "json" ) { 
+        loaded = JSON.parse(swaggerStr);
+      }
+      else { 
+        loaded= YAML.safeLoad(swaggerStr)
+      }     
+      return { loaded: loaded, parsed: parseSwagger(loaded, formatters), type: swaggerType }
     })
 }
