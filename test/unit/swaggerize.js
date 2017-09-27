@@ -107,6 +107,27 @@ describe('swagger generator', function () {
     })
   })
 
+  describe('parse a Swagger document (yaml), empty formatters dict', function () {
+    let formatters = {}
+    let loadedApi
+    let parsedSwagger
+
+    before(function () {
+      // Mock the options, set up an output folder and run the generator
+      return utils.loadAsync(path.join(__dirname, '../resources/petstore.yaml'), fs)
+        .then(loaded => swaggerize.parse(loaded, formatters))
+        .then(response => {
+          loadedApi = response.loaded
+          parsedSwagger = response.parsed
+        })
+    })
+
+    it('returned parsed swagger dict and loadedApi document', function () {
+      assert(loadedApi !== undefined)
+      assert(parsedSwagger !== undefined)
+    })
+  })
+
   describe('parse a Swagger document, undefined formatters dict', function () {
     let formatters
     let loadedApi
