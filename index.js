@@ -145,14 +145,19 @@ exports.parse = function (swaggerStr, formatters) {
   debug('in parse')
   let swaggerType= undefined  
   let loaded= undefined
-  if ( swaggerStr.charAt(0) == "{" ) { 
+
+  try {
     loaded = JSON.parse(swaggerStr)
-    swaggerType= "json"
+    swaggerType = 'json'
+  } catch(e) {
+    try {
+      loaded = YAML.safeLoad(swaggerStr)
+      swaggerType='yaml'
+    } catch(e) {
+      throw new Error('document not in expected json or yaml format')
+    }
   }
-  else {
-    loaded= YAML.safeLoad(swaggerStr)
-    swaggerType= "yaml"
-  }
+
   return ensureValidAsync(loaded)
     .then(function () {
       debug('successfully validated against schema')
@@ -161,7 +166,7 @@ exports.parse = function (swaggerStr, formatters) {
         loaded = JSON.parse(swaggerStr);
       }
       else { 
-        loaded= YAML.safeLoad(swaggerStr)
+        loaded = YAML.safeLoad(swaggerStr)
       }     
       return { loaded: loaded, parsed: parseSwagger(loaded, formatters), type: swaggerType }
     })

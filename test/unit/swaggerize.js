@@ -128,6 +128,25 @@ describe('swagger generator', function () {
     })
   })
 
+  describe('parse an invalid Swagger document', function () {
+    let formatters = {}
+    let error = null
+
+    before(function () {
+      // Mock the options, set up an output folder and run the generator
+      return utils.loadAsync(path.join(__dirname, '../resources/invalid_swagger.txt'), fs)
+        .then(loaded => swaggerize.parse(loaded, formatters))
+        .catch(function (err) {
+          error = err
+        })
+    })
+
+    it('aborted the parser with an error', function () {
+      assert(error, 'Should throw an error')
+      assert(error.message.match('document not in expected json or yaml format'), 'Thrown error should be about invalid document format, it was: ' + error)
+    })
+  })
+
   describe('parse a Swagger document, undefined formatters dict', function () {
     let formatters
     let loadedApi
