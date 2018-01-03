@@ -33,6 +33,11 @@ exports.getRefName = function (ref) {
   return ref.split('/').pop()
 }
 
+exports.arrayContains = function (search, array) {
+  // return true/false if search is/not found in array.
+  return array.indexOf(search) > -1
+}
+
 exports.validateFilePathOrURL = function (thePath) {
   if (!thePath) {
     return 'Path is required'
