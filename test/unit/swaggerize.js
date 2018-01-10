@@ -32,6 +32,18 @@ describe('swagger generator', function () {
       assert(utils.baseName('/hh/ff/test.txt') === 'test')
     })
 
+    it('returns true when the arrayContains find value in an array', function () {
+      let search = 'data'
+      let array = ['data']
+      assert(utils.arrayContains(search, array) === true)
+    })
+
+    it('returns false when the arrayContains cannot value in an array', function () {
+      let search = 'data'
+      let array = ['blahh']
+      assert(utils.arrayContains(search, array) === false)
+    })
+
     it('can get a reference name from a swagger $reg value', function () {
       assert(utils.getRefName('/helper/ff/test') === 'test')
     })
@@ -176,6 +188,16 @@ describe('swagger generator', function () {
       assert(parsedSwagger.refs['age'])
       assert(parsedSwagger.refs['dino'])
       assert(parsedSwagger.refs['newage'])
+      assert(Object.keys(parsedSwagger.models).length === 3)
+      assert(parsedSwagger.models['age'])
+      assert(parsedSwagger.models['age']['required'][0] === 'age')
+      assert(parsedSwagger.models['dino'])
+      assert(parsedSwagger.models['dino']['required'][0] === 'age')
+      assert(parsedSwagger.models['dino']['required'][1] === 'heightInt')
+      assert(parsedSwagger.models['dino']['required'][2] === 'dietDictionaryInt32')
+      assert(parsedSwagger.models['newage'])
+      assert(parsedSwagger.models['newage']['required'][0] === 'age')
+      assert(parsedSwagger.models)
     })
   })
 

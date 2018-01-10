@@ -28,7 +28,7 @@ return utils.loadAsync('../resources/person_dino.json', fs)
   })
 ```
 
-* __index.parse__: This method is used to parse the swagger conument and build a dictionary of structures that contain the routes, resources and basepath required for generating API code. The parse method will use the supplied formatters to modify the path and the resource. This method takes two parameters:
+* __index.parse__: This method is used to parse the swagger document and build a dictionary of structures that contain the routes, resources and basepath required for generating API code. The parse method will use the supplied formatters to modify the path and the resource. This method takes two parameters:
 	- stringified OpenApi (swagger) document.
 	- formatters dictionary: This contains formatters for the path _**pathFormatter**_ and for the resource _**resourceFormatter**_ The formatters take a path parameter and return a string.
 
@@ -73,7 +73,8 @@ if (this.parsedSwagger) {
     var context = {
       'resource': resource,
       'routes': this.parsedSwagger.resources[resource],
-      'basepath': this.parsedSwagger.basepath
+      'basepath': this.parsedSwagger.basepath,
+      'models': this.parsedSwagger.models
     }
     this.fs.copyTpl(this.templatePath('fromswagger/routers/router.js'), this.destinationPath(`server/routers/${resource}.js`), context)
     this.fs.copyTpl(this.templatePath('test/resource.js'), this.destinationPath(`test/${resource}.js`), context)
