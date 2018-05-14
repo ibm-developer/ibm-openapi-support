@@ -181,9 +181,12 @@ describe('swagger generator', function () {
 
     it('returned parsed swagger dict contains expected values', function () {
       assert(parsedSwagger.basepath === '/basepath')
-      assert(Object.keys(parsedSwagger.resources).length === 2)
-      assert(parsedSwagger.resources['/persons'])
-      assert(parsedSwagger.resources['/dinosaurs'])
+      assert(Object.keys(parsedSwagger.resources).length === 3)
+      assert(parsedSwagger.resources['/persons'][0]['params'].length === 0)
+      assert(parsedSwagger.resources['/persons'][1]['params'][0]['model'] === 'age')
+      assert(parsedSwagger.resources['/persons'][1]['params'][0]['array'] === false)
+      assert(parsedSwagger.resources['/persons'][1]['responses'][0]['model'] === 'age')
+      assert(parsedSwagger.resources['/persons'][1]['responses'][0]['array'] === true)
       assert(Object.keys(parsedSwagger.refs).length === 3)
       assert(parsedSwagger.refs['age'])
       assert(parsedSwagger.refs['dino'])

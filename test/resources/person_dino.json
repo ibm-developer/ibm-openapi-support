@@ -23,6 +23,62 @@
             }
           }
         }
+      },
+      "post": {
+        "description": "Post `Person` objects.",
+        "produces": [
+          "application/json"
+        ],
+	"parameters": [
+	  {
+	  "in": "body",
+	  "name": "ageobj",
+	  "description": "age of person to post",
+	  "required": true,
+	  "schema": {
+	    "$ref": "#/definitions/age"
+	    }
+  	  }
+	],
+        "responses": {
+          "200": {
+            "description": "A list of Persons",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/age"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/persons/{id}": {
+      "get": {
+        "description": "Gets `Person` objects.",
+        "produces": [
+          "application/json"
+        ],
+	"parameters": [
+	{
+	"in": "path",
+	"name": "id",
+	"description": "ID of person to return",
+	"required": true,
+	"type": "string"
+	}
+	],
+        "responses": {
+          "200": {
+            "description": "A list of Persons",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/age"
+              }
+            }
+          }
+        }
       }
     },
     "/dinosaurs": {
