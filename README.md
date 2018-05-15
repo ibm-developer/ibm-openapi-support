@@ -32,6 +32,29 @@ return utils.loadAsync('../resources/person_dino.json', fs)
 	- stringified OpenApi (swagger) document.
 	- formatters dictionary: This contains formatters for the path _**pathFormatter**_ and for the resource _**resourceFormatter**_ The formatters take a path parameter and return a string.
 
+The data returned takes the following format:
+```
+{ basepath: string,
+  resources: { "resourceName": [ {  method: string, // method is one of: "post",
+                                                    //                   "put",
+                                                    //                   "delete",
+                                                    //                   "get",
+                                                    //                   "patch"
+                                    route: string, // path to register
+                                    params: [ { model: string, // model name
+                                                array: boolean, // is this an array? }
+                                    ],
+                                    responses: [ { model: string, // model name
+                                                   array: boolean, // is this an array? }
+                                    ]
+                                 }
+                               ]
+             },
+  models: [ models declarations ]
+}
+```
+
+
 ```javascript
 var swaggerize = require('ibm-openapi-support')
 var swaggerizeUtils = require('ibm-openapi-support/utils')
