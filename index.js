@@ -197,8 +197,6 @@ function parseSwagger (api, formatters) {
 
         debug('parsing verb:', verb)
         let params = []
-        // save the method and the path in the resources list.
-        // resources[resource].push({method: verb, route: pathFormatter(path)})
         // process the parameters
         if (api.paths[path][verb].parameters) {
           let parameters = api.paths[path][verb].parameters
