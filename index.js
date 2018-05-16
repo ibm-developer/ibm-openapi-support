@@ -315,8 +315,7 @@ exports.parse = function (swaggerStr, formatters) {
       // restore the original swagger as the call to ensureValidAsync modifies the original loaded object.
       if ( swaggerType == "json" ) { 
         loaded = JSON.parse(swaggerStr);
-      }
-      else { 
+      } else { 
         loaded = YAML.safeLoad(swaggerStr)
       }     
       return { loaded: loaded, parsed: parseSwagger(loaded, formatters), type: swaggerType }
