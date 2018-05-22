@@ -196,8 +196,7 @@ function parseSwagger (api, formatters) {
         }
 
         debug('parsing verb:', verb)
-        // save the method and the path in the resources list.
-        resources[resource].push({method: verb, route: pathFormatter(path)})
+        let params = []
         // process the parameters
         if (api.paths[path][verb].parameters) {
           let parameters = api.paths[path][verb].parameters
@@ -208,20 +207,24 @@ function parseSwagger (api, formatters) {
                 // handle the schema ref
                 let ref = genutil.getRefName(parameter.schema.$ref)
                 refs[ref] = api.definitions[ref]
+                params.push({'model': ref, 'array': false})
               } else if (parameter.schema.items) {
                 // handle array of schema items
                 if (parameter.schema.items.$ref) {
                   let ref = genutil.getRefName(parameter.schema.items.$ref)
                   // handle the schema ref
                   refs[ref] = api.definitions[ref]
+                  params.push({'model': ref, 'array': true})
                 }
               }
             }
           })
         }
 
-        // process the responses. 200 and default are probably the only ones that make any sense.
-        ['200', 'default'].forEach(function (responseType) {
+        // process the responses. 200, 201  and default are probably the only ones that make any sense.
+        let responseTypes = ['200', '201', 'default']
+        let resp = []
+        responseTypes.forEach(function (responseType) {
           if (api.paths[path][verb].responses && api.paths[path][verb].responses[responseType]) {
             let responses = api.paths[path][verb].responses
             if (responses[responseType] && responses[responseType].schema) {
@@ -230,6 +233,7 @@ function parseSwagger (api, formatters) {
                 // handle the schema ref
                 ref = genutil.getRefName(responses[responseType].schema.$ref)
                 refs[ref] = api.definitions[ref]
+                resp.push({'model': ref, 'array': false})
               } else if (responses[responseType].schema.type && responses[responseType].schema.type === 'array') {
                 if (responses[responseType].schema.items && responses[responseType].schema.items.$ref) {
                   ref = genutil.getRefName(responses[responseType].schema.items.$ref)
@@ -240,6 +244,7 @@ function parseSwagger (api, formatters) {
                       // handle the schema ref
                       ref = genutil.getRefName(responses[responseType].schema.items.$ref)
                       refs[ref] = api.definitions[ref]
+                      resp.push({'model': ref, 'array': true})
                     }
                   }
                 }
@@ -247,6 +252,8 @@ function parseSwagger (api, formatters) {
             }
           }
         })
+        // save the method, the path and associated parameters in the resources list.
+        resources[resource].push({method: verb, route: pathFormatter(path), params: params, responses: resp})
       }
     })
   })
@@ -308,8 +315,7 @@ exports.parse = function (swaggerStr, formatters) {
       // restore the original swagger as the call to ensureValidAsync modifies the original loaded object.
       if ( swaggerType == "json" ) { 
         loaded = JSON.parse(swaggerStr);
-      }
-      else { 
+      } else { 
         loaded = YAML.safeLoad(swaggerStr)
       }     
       return { loaded: loaded, parsed: parseSwagger(loaded, formatters), type: swaggerType }
