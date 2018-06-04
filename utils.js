@@ -33,6 +33,17 @@ exports.getRefName = function (ref) {
   return ref.split('/').pop()
 }
 
+exports.getIdName = function (ref) {
+  // get the id name from the end of the path, if it exists.
+  let name = ref.split('{').pop()
+  if (name.endsWith('}')) {
+    name = name.split('}')[0]
+  } else {
+    name = undefined
+  }
+  return name
+}
+
 exports.arrayContains = function (search, array) {
   // return true/false if search is/not found in array.
   return array.indexOf(search) > -1
