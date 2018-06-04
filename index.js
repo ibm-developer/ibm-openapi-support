@@ -198,7 +198,7 @@ function parseSwagger (api, formatters) {
 
         debug('parsing verb:', verb)
         let params = []
-        let ID
+        let idtype
         // process the parameters
         if (api.paths[path][verb].parameters) {
           let parameters = api.paths[path][verb].parameters
@@ -226,7 +226,7 @@ function parseSwagger (api, formatters) {
             let id = genutil.getIdName(path)
             if (id && parameter.in && parameter.in == 'path') {
               if (id === parameter.name) {
-                ID = typeFormatter(parameter.type)
+                idtype = typeFormatter(parameter.type)
               }
             }
           })
@@ -264,7 +264,7 @@ function parseSwagger (api, formatters) {
           }
         })
         // save the method, the path and associated parameters in the resources list.
-        resources[resource].push({method: verb, route: pathFormatter(path), params: params, responses: resp, idtype: ID})
+        resources[resource].push({method: verb, route: pathFormatter(path), params: params, responses: resp, idtype: idtype})
       }
     })
   })
