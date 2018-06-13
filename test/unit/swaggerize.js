@@ -354,4 +354,70 @@ describe('swagger generator', function () {
       assert(parsedSwagger !== undefined)
     })
   })
+
+  describe('parse a yml Swagger document loaded from URL, check model definitions', function () {
+    let formatters = {}
+    let parsedSwagger
+
+    before(function () {
+      nock('http://dino.io')
+        .get('/petstore2.yml')
+        .replyWithFile(200, path.join(__dirname, '../resources/petstore.yaml'))
+
+      // Mock the options, set up an output folder and run the generator
+      return utils.loadAsync('http://dino.io/petstore2.yml')
+        .then(loaded => swaggerize.parse(loaded, formatters))
+        .then(response => {
+          parsedSwagger = response.parsed
+        })
+    })
+
+    after(function () {
+      nock.cleanAll()
+    })
+
+    it('returned parsed swagger dict and loadedApi document', function () {
+      assert(parsedSwagger !== undefined)
+    })
+
+    it('created a model for Pet', function () {
+      let model = parsedSwagger.models['Pet']
+      assert(model.required.length === 2)
+      assert(model.required.indexOf('name') != -1)
+      assert(model.required.indexOf('id') != -1)
+      assert(model.properties['name'] !== undefined)
+      assert(model.properties['tag'] !== undefined)
+      assert(model.properties['id'] !== undefined)
+      assert(model.properties['name']['type'] === 'string')
+      assert(model.properties['tag']['type'] === 'string')
+      assert(model.properties['id']['type'] === 'integer')
+      assert(model.properties['id']['format'] === 'int64')
+    })
+
+    it('created a model for NewPet', function () {
+      let model = parsedSwagger.models['NewPet']
+      assert(model.required.length === 2)
+      assert(model.required.indexOf('name') != -1)
+      assert(model.required.indexOf('id') != -1)
+      assert(model.properties['name'] !== undefined)
+      assert(model.properties['tag'] !== undefined)
+      assert(model.properties['id'] !== undefined)
+      assert(model.properties['name']['type'] === 'string')
+      assert(model.properties['tag']['type'] === 'string')
+      assert(model.properties['id']['type'] === 'integer')
+      assert(model.properties['id']['format'] === 'int64')
+    })
+
+    it('created a model for ErrorModel', function () {
+      let model = parsedSwagger.models['ErrorModel']
+      assert(model.required.length === 2)
+      assert(model.required.indexOf('code') != -1)
+      assert(model.required.indexOf('message') != -1)
+      assert(model.properties['code'] !== undefined)
+      assert(model.properties['message'] !== undefined)
+      assert(model.properties['code']['type'] === 'integer')
+      assert(model.properties['code']['format'] === 'int32')
+      assert(model.properties['message']['type'] === 'string')
+    })
+  })
 })
