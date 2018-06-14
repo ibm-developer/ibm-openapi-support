@@ -169,6 +169,21 @@ function getModels (api) {
       models[model] = api.definitions[model]
     }
   })
+
+  // Process the allOf sections of models and save the results into the allOf dict.
+  let allOf = {}
+  Object.keys(models).forEach(name => {
+    if (models[name].allOf) {
+      let visited = []
+      visited.push(name)
+      allOf[name] = genutil.processAllOf(models, name, visited)
+    }
+  })
+  // Rewrite the data from the allOf dict back into the original models information.
+  Object.keys(allOf).forEach(name => {
+    models[name] = allOf[name]
+  })
+
   return models
 }
 
