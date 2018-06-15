@@ -169,6 +169,21 @@ function getModels (api) {
       models[model] = api.definitions[model]
     }
   })
+
+  // Process the allOf sections of models and save the results into the allOf dict.
+  let allOf = {}
+  Object.keys(models).forEach(name => {
+    if (models[name].allOf) {
+      let visited = []
+      visited.push(name)
+      allOf[name] = genutil.processAllOf(models, name, visited)
+    }
+  })
+  // Rewrite the data from the allOf dict back into the original models information.
+  Object.keys(allOf).forEach(name => {
+    models[name] = allOf[name]
+  })
+
   return models
 }
 
@@ -183,6 +198,7 @@ function parseSwagger (api, formatters) {
 
   let pathFormatter = formatters['pathFormatter'] || function (path) { return path }
   let resourceFormatter = formatters['resourceFormatter'] || function (route) { return route }
+  let typeFormatter = formatters['typeFormatter'] || function (type) { return type }
 
   Object.keys(api.paths).forEach(function (path) {
     let resource = resourceFormatter(path)
@@ -197,6 +213,7 @@ function parseSwagger (api, formatters) {
 
         debug('parsing verb:', verb)
         let params = []
+        let idtype
         // process the parameters
         if (api.paths[path][verb].parameters) {
           let parameters = api.paths[path][verb].parameters
@@ -216,6 +233,15 @@ function parseSwagger (api, formatters) {
                   refs[ref] = api.definitions[ref]
                   params.push({'model': ref, 'array': true})
                 }
+              }
+            }
+
+            // if there is a trailing id on the path, get its type from the parameters
+            // section.
+            let id = genutil.getIdName(path)
+            if (id && parameter.in && parameter.in == 'path') {
+              if (id === parameter.name) {
+                idtype = typeFormatter(parameter.type)
               }
             }
           })
@@ -253,7 +279,7 @@ function parseSwagger (api, formatters) {
           }
         })
         // save the method, the path and associated parameters in the resources list.
-        resources[resource].push({method: verb, route: pathFormatter(path), params: params, responses: resp})
+        resources[resource].push({method: verb, route: pathFormatter(path), params: params, responses: resp, idtype: idtype})
       }
     })
   })
