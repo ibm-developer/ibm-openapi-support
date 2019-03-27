@@ -23,7 +23,7 @@
     "bluebird": "^3.5.0",
     "debug": "^2.2.0",
     "hoek": "^5.0.3",
-    "js-yaml": "^3.9.0",
+    "js-yaml": "^3.13.0",
     "request": "^2.81.0",
     "swagger-parser": "^3.4.1",
     "swaggerize-routes": "^1.0.11",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "codecov": "^3.0.2",
-    "coveralls": "^3.0.1",
+    "coveralls": "^3.0.3",
     "eslint": "^3.1.1",
     "eslint-plugin-ejs": "0.0.2",
     "istanbul": "^0.4.5",
@@ -39,7 +39,7 @@
     "mem-fs-editor": "^4.0.2",
     "mocha": "^5.1.1",
     "nock": "^9.0.13",
-    "nyc": "^11.8.0",
+    "nyc": "^13.3.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.6.0"
   },
