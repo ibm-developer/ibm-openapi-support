@@ -96,7 +96,7 @@ exports.loadAsync = function (thePath, memfs) {
   let isHttp = /^https?:\/\/\S+/.test(thePath)
   let isYaml = (thePath.endsWith('.yaml') || thePath.endsWith('.yml'))
   return (isHttp ? loadHttpAsync(thePath) : loadFileAsync(thePath, memfs))
-    .then(data => isYaml ? JSON.stringify(YAML.load(data)) : data)
+    .then(data => isYaml ? JSON.stringify(YAML.safeLoad(data)) : data)
 }
 
 function mergeRequired (child, parent) {
