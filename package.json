@@ -1,6 +1,6 @@
 {
   "name": "ibm-openapi-support",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "utility for loading and parsing swagger",
   "author": {
     "name": "Neil Hardman",
