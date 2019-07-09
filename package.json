@@ -39,7 +39,7 @@
     "mem-fs-editor": "^4.0.2",
     "mocha": "^5.1.1",
     "nock": "^9.0.13",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.6.0"
   },
