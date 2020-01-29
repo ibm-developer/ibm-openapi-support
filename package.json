@@ -24,7 +24,7 @@
     "debug": "^2.2.0",
     "@hapi/hoek": "^6.2.1",
     "js-yaml": "^3.13.1",
-    "request": "^2.81.0",
+    "request": "^2.88.0",
     "swagger-parser": "^3.4.1",
     "swaggerize-routes": "^1.0.11",
     "tunnel-agent": "^0.6.0"
@@ -39,7 +39,7 @@
     "mem-fs-editor": "^4.0.2",
     "mocha": "^5.1.1",
     "nock": "^9.0.13",
-    "nyc": "^13.3.0",
+    "nyc": "^15.0.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.6.0"
   },
